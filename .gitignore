@@ -1,0 +1,5 @@
+todolist.txt
+tags-cache.txt
+.env
+__pycache__/
+.venv/

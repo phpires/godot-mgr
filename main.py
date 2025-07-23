@@ -1,13 +1,11 @@
-import subprocess
-import json
-from classes.godot_remote_tags import GodotRemoteTags
+from functions.tags import download_tags, list_tags_names, load_tags, save_tags
 
 def main():
-    result = subprocess.run(["curl", "https://api.github.com/repos/godotengine/godot/tags"], capture_output=True, text=True)
-    parsed_result = json.loads(result.stdout)
-    godot_remote_tags = []
-    for r in parsed_result:
-        godot_remote_tags.append(GodotRemoteTags(r["name"]))
+    godot_remote_tags = load_tags()
+    if not load_tags():
+        godot_remote_tags = download_tags()
+        save_tags(godot_remote_tags)
+    print(list_tags_names(godot_remote_tags))
     
 if __name__ == "__main__":
     main()
