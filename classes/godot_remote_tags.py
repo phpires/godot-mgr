@@ -12,8 +12,7 @@ class GodotRemoteTags:
     def __repr__(self):
         return f"GodotRemoteTags(name={self.name}, zipball_url={self.zipball_url}, tarball_url={self.tarball_url}, commit_sha={self.commit_sha}, node_id={self.node_id})\n"
     
-def from_repr(list_of_repr_remote_tags):
-    
+def from_repr(godot_remote_tag_str):
     pattern = re.compile(r'''
         GodotRemoteTags\(
         \s*name=(?P<name>[^,]+),
@@ -24,13 +23,13 @@ def from_repr(list_of_repr_remote_tags):
         \)
     ''', re.VERBOSE)
 
-    tags = []
-    for m in pattern.finditer(list_of_repr_remote_tags):
+    tag = None
+    for m in pattern.finditer(godot_remote_tag_str):
         name = m.group('name')
         zip_url = m.group('zip')
         tar_url = m.group('tar')
         sha = m.group('sha')
         node_id = m.group('node')
         commit = {"sha": sha, "url": f"https://api.github.com/git/commits/{sha}"}
-        tags.append(GodotRemoteTags(name, zip_url, tar_url, commit, node_id))
-    return tags
+        tag = GodotRemoteTags(name, zip_url, tar_url, commit, node_id)
+    return tag

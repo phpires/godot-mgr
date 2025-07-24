@@ -6,7 +6,9 @@ from classes.godot_remote_tags import GodotRemoteTags, from_repr
 def load_tags():
     godot_remote_tags = []
     with open("data/godot_remote_tags.txt", "r") as file:
-        godot_remote_tags = from_repr(file.readlines())
+        for line in file.readlines():
+            #print(f"load_tags>>line: {line}")
+            godot_remote_tags.append(from_repr(line))
     return godot_remote_tags
     
 
