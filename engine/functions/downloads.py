@@ -1,6 +1,4 @@
-import subprocess
 import json
-import os
 import requests
 
 from classes.godot_remote_tags import GodotRemoteTags
@@ -59,7 +57,6 @@ def download_tags(tag_url):
 
 def download_godot_version(tag_name):
     download_url, file_name = fetch_download_url(tag_name)
-
     with requests.get(download_url, stream=True) as r:
         r.raise_for_status()
         with open(file_name, 'wb') as f:

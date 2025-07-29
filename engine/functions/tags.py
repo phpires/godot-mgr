@@ -1,11 +1,21 @@
 from classes.godot_remote_tags import from_repr
+import os
 
 def load_tags():
     godot_remote_tags = []
-    with open("engine/data/godot_remote_tags.txt", "r") as file:
-        for line in file.readlines():
-            godot_remote_tags.append(from_repr(line))
-    return godot_remote_tags
+    engine_data_dir = os.path.abspath("engine/data")
+    if not os.path.isdir(engine_data_dir):
+        print(f"Dir for saving tags not found. Creating...")
+        os.mkdir(engine_data_dir)
+        print("Engine data dir created.")
+    try:
+        with open("engine/data/godot_remote_tags.txt", "r") as file:
+            for line in file.readlines():
+                godot_remote_tags.append(from_repr(line))
+        return godot_remote_tags
+    except FileNotFoundError:
+        print("No tags were found.")
+        return None
 
 def save_tags(godot_remote_tags):
     print(f"Saving tags")

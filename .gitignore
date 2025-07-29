@@ -4,3 +4,5 @@ tags-cache.txt
 __pycache__/
 .venv/
 engine/*.zip
+*.zip
+engine/data
