@@ -22,14 +22,15 @@ def list():
 
 @app.command("download")
 def download(tag: Annotated[str, typer.Option(help="Godot version to download.")] = None):
-    if not tag_exists(tag):
+    if not tag:
+        tag = DEFAULT_VERSION
+        
+    elif not tag_exists(tag):
         print("Tag does not exists.")
         sys.exit(1)
-    if tag:
-        download_godot_version(tag)
-    else:
-        #TODO: Load a default version if not defined
-        download_godot_version(DEFAULT_VERSION)
+
+    download_godot_version(tag)
+    
     #TODO: save downloaded tags and the folder of destination. Database?
     
 
