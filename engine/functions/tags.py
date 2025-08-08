@@ -33,6 +33,13 @@ def list_tags_names(godot_remote_tags):
         tags_names.append(tag.name)
     return tags_names
 
+def print_to_user(godot_remote_tags):
+    tag_list_by_name = ""
+    for tag in godot_remote_tags:
+        tag_list_by_name += tag.name + "\n"
+    
+    print(tag_list_by_name)
+
 def tag_exists(tag_name):
     existing_tags = list_tags_names(load_tags())
     if not (tag_name in existing_tags):
