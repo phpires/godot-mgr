@@ -24,7 +24,13 @@ def list():
 def download(tag: Annotated[str, typer.Option(help="Godot version to download.")] = None):
     if not tag:
         tag = DEFAULT_VERSION
-        
+
+    tags: GodotRemoteTags = load_tags()
+    if not tags:
+       print("No tags on filesystem. Downloading from remote.")
+       tags = download_tags(tag_url)
+       save_tags(tags)
+
     elif not tag_exists(tag):
         print("Tag does not exists.")
         sys.exit(1)
@@ -33,7 +39,12 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
     
     #TODO: save downloaded tags and the folder of destination. Database?
     
-
+def update_local_tags():
+    tags: GodotRemoteTags = load_tags()
+    if not tags:
+       print("No tags on filesystem. Downloading from remote.")
+       tags = (tag_url)
+       save_tags(tags)
     
 if __name__ == "__main__":
     app()
