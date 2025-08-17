@@ -14,9 +14,7 @@ def list():
     print("Listing available tags...")
     tags: GodotRemoteTags = load_tags()
     if not tags:
-       print("No tags on filesystem. Downloading from remote.")
-       tags = download_tags(tag_url)
-       save_tags(tags)
+       update_local_tags()
     print("Available tags to download are: ")
     print_to_user(tags)
 
@@ -27,9 +25,7 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
 
     tags: GodotRemoteTags = load_tags()
     if not tags:
-       print("No tags on filesystem. Downloading from remote.")
-       tags = download_tags(tag_url)
-       save_tags(tags)
+       update_local_tags()
 
     elif not tag_exists(tag):
         print("Tag does not exists.")
@@ -40,11 +36,9 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
     #TODO: save downloaded tags and the folder of destination. Database?
     
 def update_local_tags():
-    tags: GodotRemoteTags = load_tags()
-    if not tags:
-       print("No tags on filesystem. Downloading from remote.")
-       tags = (tag_url)
-       save_tags(tags)
+    print("No tags on filesystem. Downloading from remote.")
+    tags = download_tags(tag_url)
+    save_tags(tags)
     
 if __name__ == "__main__":
     app()
