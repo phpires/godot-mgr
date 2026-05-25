@@ -6,13 +6,11 @@ from functions.tags import tag_exists
 
 def fetch_download_url(tag_name):
     
-    if not tag_exists(tag_name):
-        raise Exception("godot version does not exists.")
     api_url = f"https://api.github.com/repos/godotengine/godot/releases/tags/{tag_name}"
     
     headers = {
-    "Accept": "application/vnd.github.v3+json",
-    "User-Agent": "godot-downloader"
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "godot-downloader"
     }
 
     print(f"Fetching metadata from {api_url}")
