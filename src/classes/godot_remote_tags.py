@@ -10,7 +10,7 @@ class GodotRemoteTags:
         self.node_id = node_id
     
     def __repr__(self):
-        return f"GodotRemoteTags(name={self.name}, zipball_url={self.zipball_url}, tarball_url={self.tarball_url}, commit_sha={self.commit_sha}, node_id={self.node_id})\n"
+        return f"GodotRemoteTags(name={self.name}, zipball_url={self.zipball_url}, tarball_url={self.tarball_url}, commit_sha={self.commit_sha}, node_id={self.node_id})"
     
 def from_repr(godot_remote_tag_str):
     pattern = re.compile(r'''

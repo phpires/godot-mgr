@@ -2,7 +2,7 @@ import json
 import requests
 
 from classes.godot_remote_tags import GodotRemoteTags
-from functions.tags import tag_exists
+from functions.tags import tag_exists_on_remote
 
 def fetch_download_url(tag_name):
     
@@ -40,7 +40,7 @@ def fetch_download_url(tag_name):
 
     return download_url, file_name
 
-def download_tags(tag_url):
+def download_tags_from_remote(tag_url):
     print(f"Downloading tags from url: {tag_url}")
     response = requests.get(url=tag_url)
 

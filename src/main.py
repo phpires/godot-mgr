@@ -1,8 +1,8 @@
 import sys
 import typer
 from typing_extensions import Annotated
-from functions.tags import load_tags, save_tags_locally, tag_exists, print_to_user
-from functions.downloads import download_tags, download_godot_version
+from functions.tags import load_tags, save_remote_tags_available, tag_exists_on_remote, print_to_user, save_downloaded_tag_version
+from functions.downloads import download_tags_from_remote, download_godot_version
 from classes.godot_remote_tags import GodotRemoteTags
 
 app = typer.Typer()
@@ -10,9 +10,7 @@ tag_url = "https://api.github.com/repos/godotengine/godot/tags"
 
 @app.command("versions")
 def list():
-    update_local_tags()
-    print("Listing available versions...")
-    tags: GodotRemoteTags = load_tags()
+    tags: GodotRemoteTags = update_local_tags()
     print("Available versions to download are: ")
     print_to_user(tags)
 
@@ -24,17 +22,17 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
     if not tag:
         print(f"No godot version were given for donwload. Download the latest version: {tags[0].name}")
         tag = tags[0].name
-    elif not tag_exists(tag):
+    elif not tag_exists_on_remote(tag):
         print("Tag does not exists.")
         sys.exit(1)
 
     download_godot_version(tag)
-    #TODO: save downloaded tags and the folder of destination. Database?
+    save_downloaded_tag_version(tag)
     
 def update_local_tags():
-    tags = download_tags(tag_url)
-    print(tags)
-    save_tags_locally(tags)
+    tags = download_tags_from_remote(tag_url)
+    save_remote_tags_available(tags)
+    return tags
     
 if __name__ == "__main__":
     app()
