@@ -32,4 +32,6 @@ def from_repr(godot_remote_tag_str):
         node_id = m.group('node')
         commit = {"sha": sha, "url": f"https://api.github.com/git/commits/{sha}"}
         tag = GodotRemoteTags(name, zip_url, tar_url, commit, node_id)
+    if not tag:
+        return godot_remote_tag_str
     return tag

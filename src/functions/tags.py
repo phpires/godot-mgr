@@ -10,15 +10,10 @@ GODOT_DOWNLOADED_VERSIONS = "godot_downloaded_versions.txt"
 GODOT_DOWNLOADED_VERSIONS_FILEPATH = os.path.abspath(os.path.join(DATA_DIR, GODOT_DOWNLOADED_VERSIONS))
 
 def load_tags():
-    godot_remote_tags = []
-    try:
-        with open(GODOT_REMOTE_TAG_TXT_FILEPATH, "r") as file:
-            for line in file.readlines():
-                godot_remote_tags.append(from_repr(line))
-        return godot_remote_tags
-    except FileNotFoundError:
-        print("No tags were found.")
-        return None
+    return read_from_txt_file_into_list(GODOT_REMOTE_TAG_TXT_FILEPATH)
+
+def load_downloaded_tags():
+    return read_from_txt_file_into_list(GODOT_DOWNLOADED_VERSIONS_FILEPATH)
 
 def save_remote_tags_available(godot_remote_tags):
     print(f"Saving remote tags available")
@@ -54,7 +49,7 @@ def save_downloaded_tag_version(tag_name):
     print(f"Downloaded tag saved on filepath: {GODOT_DOWNLOADED_VERSIONS_FILEPATH}")
 
 def create_dir(dir_path):
-    print(f"Saving remote tags available")
+    print(f'Creating dir on {dir_path}')
     dir = os.path.abspath(dir_path)
     if not os.path.isdir(dir):
         print(f"Dir {dir} not found. Creating...")
@@ -64,10 +59,26 @@ def create_dir(dir_path):
         print(f"Dir {dir} already exists. Nothing was done.")
 
 def write_on_txt_file(filepath, data):
-    print(f"filepath: {filepath}")
+    print(f"Writing data to a txt file on filepath: {filepath}")
     with open(filepath, "w+") as f:
         f.write("\n".join(data))
 
 def append_on_txt_file(filepath, data):
+    print(f"Appending data on txt file on filepath: {filepath}")
     with open(filepath, "a") as f:
-        f.write("\n".join(data))
+        for d in data:
+            f.write("%s"%d)
+
+def read_from_txt_file_into_list(filepath):
+    try:
+        data = []
+        print(f"Opening file on {filepath}")
+        with open(filepath, "r") as file:
+            for line in file.readlines():
+                print(f"line: {line}")
+                data.append(from_repr(line))
+                print(f"data: {data}")
+        return data
+    except FileNotFoundError:
+        print(f"File not found on {filepath}")
+        return None

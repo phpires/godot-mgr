@@ -54,6 +54,7 @@ def download_tags_from_remote(tag_url):
     return godot_remote_tags
 
 def download_godot_version(tag_name):
+    print(f"Starting download of godot version: {tag_name}")
     download_url, file_name = fetch_download_url(tag_name)
     with requests.get(download_url, stream=True) as r:
         r.raise_for_status()
