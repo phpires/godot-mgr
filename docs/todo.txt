@@ -1,16 +1,8 @@
-- Create a 'delete' function.
-    This function will delete the downloaded Godot version previously donwloaded.
-    1. Delete version of godot from folder
-        - List all 'godot' folder content
-        - Search for specific godot file
-        - Delete the file
-    2. Remove the tag name from the 'godot_downloaded_versions.txt'
-        - List all downloaded versions from the file.
-        - Delete specific version from the file.
-        - Update the file
 - Make a 'force' option on download and delete.
     1. If force is given for download, do not check if the godot version is already downloaded.
         - Explain and ask if sure.
 - Make a 'clear' option for delete.
+    1. It deletes all godot files.
 - Create a 'data' function.
     Do not export to user. It will help if desire to add database access. Work as an interface
+- Check for places where we need to add stripe

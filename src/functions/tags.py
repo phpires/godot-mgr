@@ -1,4 +1,6 @@
 from classes.godot_remote_tags import from_repr
+from classes.godot_remote_tags import GodotRemoteTags
+
 import os
 
 DATA_DIR = "data"
@@ -9,6 +11,13 @@ GODOT_REMOTE_TAG_TXT_FILEPATH = os.path.abspath(os.path.join(DATA_DIR, GODOT_REM
 GODOT_DOWNLOADED_VERSIONS = "godot_downloaded_versions.txt"
 GODOT_DOWNLOADED_VERSIONS_FILEPATH = os.path.abspath(os.path.join(DATA_DIR, GODOT_DOWNLOADED_VERSIONS))
 
+def tag_exists_on_local(tag):
+    downloaded_tags: GodotRemoteTags = load_downloaded_tags()
+    print(f'downloaded_tags: {downloaded_tags}')
+    if not downloaded_tags or not (tag in downloaded_tags):
+        return False
+    return True
+    
 def load_tags():
     return read_from_txt_file_into_list(GODOT_REMOTE_TAG_TXT_FILEPATH)
 
@@ -67,7 +76,7 @@ def append_on_txt_file(filepath, data):
     print(f"Appending data on txt file on filepath: {filepath}")
     with open(filepath, "a") as f:
         for d in data:
-            f.write("%s"%d)
+            f.write(f"{d}\n")
 
 def read_from_txt_file_into_list(filepath):
     try:
@@ -76,7 +85,7 @@ def read_from_txt_file_into_list(filepath):
         with open(filepath, "r") as file:
             for line in file.readlines():
                 print(f"line: {line}")
-                data.append(from_repr(line))
+                data.append(from_repr(line.strip()))
                 print(f"data: {data}")
         return data
     except FileNotFoundError:

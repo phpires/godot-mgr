@@ -1,8 +1,12 @@
 import sys
 import typer
+
 from typing_extensions import Annotated
-from functions.tags import load_tags, save_remote_tags_available, tag_exists_on_remote, print_to_user, save_downloaded_tag_version, load_downloaded_tags
+
+from functions.tags import load_tags, tag_exists_on_local, save_remote_tags_available, tag_exists_on_remote, print_to_user, save_downloaded_tag_version, load_downloaded_tags
 from functions.downloads import download_tags_from_remote, download_godot_version
+from functions.delete import delete_godot
+
 from classes.godot_remote_tags import GodotRemoteTags
 
 app = typer.Typer()
@@ -15,9 +19,9 @@ def list():
     print_to_user(tags)
 
 @app.command("download")
-def download(tag: Annotated[str, typer.Option(help="Godot version to download.")] = None):
+def download(tag: Annotated[str, typer.Option(help="Godot version to download.")] = None,
+             path: Annotated[str, typer.Option(help="Godot version to download.")] = ""):
     tags: GodotRemoteTags = update_local_tags()
-    downloaded_tags: GodotRemoteTags = load_downloaded_tags()
 
     if not tag:
         print(f"No godot version were given for donwload. Using the latest version: {tags[0].name}")
@@ -26,13 +30,23 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
         print("Tag does not exists.")
         sys.exit(1)
         
-    if not downloaded_tags or not (tag in downloaded_tags):
-        download_godot_version(tag)
+    if not tag_exists_on_local(tag):
+        download_godot_version(tag, path)
         save_downloaded_tag_version(tag)
         return
     
     print(f"Godot version {tag} already downloaded.")
-    
+
+@app.command("delete")
+def delete(tag: Annotated[str, typer.Option(help="Godot version to delete.")] = None):
+    if not tag:
+        print("Must give a godot version to delete")
+        sys.exit(1)
+    if not tag_exists_on_local(tag):
+        print(f'Godot not found for version: {tag}')
+        sys.exit(1)
+    delete_godot(tag)
+
 def update_local_tags():
     tags = download_tags_from_remote(tag_url)
     save_remote_tags_available(tags)
