@@ -30,7 +30,8 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
         download_godot_version(tag)
         save_downloaded_tag_version(tag)
         return
-    print(f"Godot version already downloaded.")
+    
+    print(f"Godot version {tag} already downloaded.")
     
 def update_local_tags():
     tags = download_tags_from_remote(tag_url)

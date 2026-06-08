@@ -1,8 +1,3 @@
-- Create a 'version' record
-    1. Create a txt file to record downloaded tags. Give it the name 'godot_remote_tags_dowloaded.txt'
-        -> Check if already exist. If not, create a new.
-    2. Save the downloaded tag on the txt file.
-    3. Change the condition to download to find if the Godot version is already downloaded.
 - Create a 'delete' function.
     This function will delete the downloaded Godot version previously donwloaded.
     1. Search the Godot version on the 'godot_remote_tags_dowloaded.txt'.

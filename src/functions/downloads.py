@@ -53,7 +53,7 @@ def download_tags_from_remote(tag_url):
         godot_remote_tags.append(GodotRemoteTags(r["name"], r["zipball_url"], r["tarball_url"], r["commit"], r["node_id"]))
     return godot_remote_tags
 
-def download_godot_version(tag_name):
+def download_godot_version(tag_name, download_path):
     print(f"Starting download of godot version: {tag_name}")
     download_url, file_name = fetch_download_url(tag_name)
     with requests.get(download_url, stream=True) as r:

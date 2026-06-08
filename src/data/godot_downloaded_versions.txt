@@ -1,1 +1,1 @@
-4.6.3-stable
+4.6.3-stable<MagicMock name='update_local_tags().__getitem__().name' id='139850622577168'>
