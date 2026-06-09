@@ -39,7 +39,8 @@ def list_remote_tags_downloaded(godot_remote_tags):
         tags_names.append(tag.name)
     return tags_names
 
-def print_to_user(godot_remote_tags):
+def print_available_versions_to_download(godot_remote_tags):
+    print("Available remote tags for download: ")
     tag_list_by_name = ""
     for tag in godot_remote_tags:
         tag_list_by_name += tag.name + "\n"
@@ -84,10 +85,17 @@ def read_from_txt_file_into_list(filepath):
         print(f"Opening file on {filepath}")
         with open(filepath, "r") as file:
             for line in file.readlines():
-                print(f"line: {line}")
                 data.append(from_repr(line.strip()))
-                print(f"data: {data}")
         return data
     except FileNotFoundError:
         print(f"File not found on {filepath}")
         return None
+
+def print_downloaded_godot_versions():
+    print("Listing downloaded godot versions")
+    downloaded_godot_versions = read_from_txt_file_into_list(GODOT_DOWNLOADED_VERSIONS_FILEPATH)
+    if not downloaded_godot_versions:
+        print("No godot version found on local machine.")
+        return
+    for gdt in downloaded_godot_versions:
+        print(gdt)

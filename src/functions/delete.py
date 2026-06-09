@@ -3,6 +3,8 @@ from os import listdir, remove
 from os.path import isfile, abspath, join
 
 GODOT_FOLDER_PATH = abspath("godot")
+DATA_FOLDER_PATH = abspath("data")
+
 def delete_godot(tag):
     all_godots = list_files_from_folder(GODOT_FOLDER_PATH)
     escaped_tags = escape(tag)
@@ -14,6 +16,17 @@ def delete_godot(tag):
     else:
         print(f"No Godot installation found for tag: {tag}")
         return
+
+def clear_download_folder():
+    for f in listdir(GODOT_FOLDER_PATH):
+        file_path = join(GODOT_FOLDER_PATH, f)
+        if isfile(file_path):
+            remove(file_path)
+    clear_godot_downloaded_list()
+
+def clear_godot_downloaded_list():
+    filepath = "data/godot_downloaded_versions.txt"
+    remove(filepath)
 
 def list_files_from_folder(folder_path):
     files = []
@@ -39,11 +52,9 @@ def clear_from_godot_downloaded_list(tag):
         with open(filepath, "r+") as file:
             for line in file.readlines():
                 stripped = line.strip()
-                print(f"line: {stripped}")
                 if tag == stripped:
                     continue
                 data.append(stripped)
-                print(f"data: {data}")
             file.seek(0)
             file.write("\n".join(data))
             file.truncate()
