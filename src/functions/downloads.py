@@ -23,6 +23,7 @@ def fetch_download_url(tag_name):
     asset = None
     print(f"Getting windows asset")
     for a in release['assets']:
+        #print(f"Checking asset: {a}")
         if "win64.exe.zip" in a['name']:
             asset = a
             break

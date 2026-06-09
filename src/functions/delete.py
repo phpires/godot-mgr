@@ -25,8 +25,9 @@ def clear_download_folder():
     clear_godot_downloaded_list()
 
 def clear_godot_downloaded_list():
-    filepath = "data/godot_downloaded_versions.txt"
-    remove(filepath)
+    file_path = "data/godot_downloaded_versions.txt"
+    if isfile(file_path):
+        remove(file_path)
 
 def list_files_from_folder(folder_path):
     files = []

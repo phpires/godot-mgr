@@ -1,5 +1,6 @@
 import sys
 import typer
+import platform
 
 from typing_extensions import Annotated
 
@@ -21,7 +22,7 @@ def list(local: Annotated[bool, typer.Option("-l", "--local", help="List downloa
     print_available_versions_to_download(tags)
 
 @app.command("download")
-def download(tag: Annotated[str, typer.Option(help="Godot version to download.")] = None):
+def download(tag: Annotated[str, typer.Option("-t", "--tag", help="Godot version to download.")] = None):
     tags: GodotRemoteTags = update_local_tags()
     
     if not tag:
@@ -39,7 +40,7 @@ def download(tag: Annotated[str, typer.Option(help="Godot version to download.")
     print(f"Godot version {tag} already downloaded.")
 
 @app.command("delete")
-def delete(tag: Annotated[str, typer.Option(help="Godot version to delete.")] = None,
+def delete(tag: Annotated[str, typer.Option("-t", "--tag", help="Godot version to delete.")] = None,
            clear: Annotated[bool, typer.Option("-c", "--clear", help="Delete all godot versions downloaded.")] = False):
     if not tag and not clear:
         print("Must give a godot version to delete")
@@ -54,6 +55,11 @@ def delete(tag: Annotated[str, typer.Option(help="Godot version to delete.")] = 
         clear_download_folder()
         sys.exit(0)
     delete_godot(tag)
+
+#@app.command("execute")
+def execute():
+    print(platform.system())
+    pass
 
 def update_local_tags():
     tags = download_tags_from_remote(tag_url)
